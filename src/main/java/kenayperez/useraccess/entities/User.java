@@ -1,12 +1,12 @@
 package kenayperez.useraccess.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
 import java.util.LinkedHashSet;
@@ -19,6 +19,7 @@ import java.util.UUID;
 @Table(name = "_users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @ColumnDefault("gen_random_uuid()")
     @Column(name = "id", nullable = false)
     private UUID id;
@@ -27,7 +28,6 @@ public class User {
     @NotNull
     @Column(name = "email", nullable = false)
     private String email;
-
 
     @NotNull
     @Column(name = "password_hash", nullable = false, length = Integer.MAX_VALUE)
@@ -38,6 +38,7 @@ public class User {
     @Column(name = "status", length = 20)
     private String status;
 
+    @CreationTimestamp
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
@@ -48,9 +49,7 @@ public class User {
     private String username;
 
     @ManyToMany
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
 
 }
