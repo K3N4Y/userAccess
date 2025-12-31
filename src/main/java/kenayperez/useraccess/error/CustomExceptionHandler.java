@@ -14,4 +14,11 @@ public class CustomExceptionHandler {
         ErrorResponse response = new ErrorResponse("EMAIL_ALREADY_EXISTS", ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(PasswordInvalidException.class)
+    public ResponseEntity<ErrorResponse> handlePasswordInvalid(PasswordInvalidException ex) {
+        ErrorResponse response = new ErrorResponse("PASSWORD_INVALID", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

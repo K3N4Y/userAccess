@@ -7,6 +7,7 @@ import kenayperez.useraccess.dto.UserDTO;
 import kenayperez.useraccess.entities.User;
 import kenayperez.useraccess.entities.Role;
 import kenayperez.useraccess.error.EmailAlreadyExistException;
+import kenayperez.useraccess.error.PasswordInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class UserService {
         }
 
         if (user.getPasswordHash().length() < 8 || user.getPasswordHash().length() > 20) {
-            return null;
+            throw new PasswordInvalidException("Password has to be between 8 and 20 characters");
         }
 
         // Asignar Rol por defecto (ROLE_USER)
