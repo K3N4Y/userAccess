@@ -1,6 +1,5 @@
 package kenayperez.useraccess.Service;
 
-import jdk.jshell.spi.ExecutionControl;
 import kenayperez.useraccess.Repository.UserRepository;
 import kenayperez.useraccess.Repository.RoleRepository;
 import kenayperez.useraccess.dto.UserDTO;
@@ -11,6 +10,7 @@ import kenayperez.useraccess.error.PasswordInvalidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
@@ -24,6 +24,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public UserDTO registerUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailAlreadyExistException("User with this email already exists");

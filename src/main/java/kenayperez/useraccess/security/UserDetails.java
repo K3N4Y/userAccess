@@ -1,33 +1,27 @@
-package kenayperez.useraccess;
+package kenayperez.useraccess.security;
 
 import kenayperez.useraccess.entities.User;
-import org.jspecify.annotations.Nullable;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
-/*
-public class CustomUserDetails implements UserDetails {
+@Getter
+@RequiredArgsConstructor
+public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
 
-    private User user;
-
-    public CustomUserDetails(User user) {
-        this.user = user;
-    }
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .toList();
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
-    public @Nullable String getPassword() {
+    public String getPassword() {
         return user.getPasswordHash();
     }
 
@@ -38,21 +32,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
-}*/
+}
